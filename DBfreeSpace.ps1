@@ -11,7 +11,13 @@ param(
         Mandatory=$true,
         HelpMessage="Choose servers: "
     )]
-    [ValidateSet("Test", "All")]
+    [ValidateSet("V2", "V4", "V6", "V7", "V9", "V10", 
+    "V12", "V20", "V22", "V23",
+     "Washington", "Temple", "Tampa",
+      "St_Louis", "San_Juan", 
+    "San_Antonio", "Orlando", "Martinsburg", 
+    "Little_Rock", "Jackson", "Houston", "Denver", 
+    "Bay_Pines", "Baltimore", "All")]
     [string[]]$SelectedServerGroups,
 
     [Parameter()]
@@ -22,11 +28,71 @@ param(
 
 if ($prodOrStage -ieq "stage") {
     $ServerGroupsMap = @{
-        Stage = @("example_stage_FQDN")
+        V2 = @("OITV03APPTHERAS.va.gov")
+        V4 = @("OITV04APPTHERAS.va.gov")#, "OITV04APPTHERA2.va.gov")#, "OITV04APPTHERA3.va.gov",
+        #"OITV04APPTHERA4.va.gov", "OITV04APPTHERA5.va.gov", "OITV04APPTHERAD.va.gov")
+        V6 = @("OITV06APPTHERAS.va.gov")#, "OITV06APPTHERA2.va.gov")#, "OITV06APPTHERA3.va.gov", 
+        #"OITV06APPTHERA4.va.gov", "OITV06DBSTHERAD.va.gov")
+        V7 = @("OITV07APPTHERAS.va.gov")#, "OITV07APPTHERA2.va.gov")#, "OITV07DBSTHERAD.va.gov")
+        V9 = @("OITV09APPTHERAS.va.gov")#, "OITV09APPTHERA2.va.gov")#, "OITV09APPTHERA3.va.gov", 
+        #"OITV09APPTHERA4.va.gov", "OITV09DBSTHERAD.va.gov")
+        V10 = @("OITV10APPTHERAS.va.gov")#, "OITV10APPTHERA2.va.gov")#, "OITV10DBSTHERAD.va.gov")
+        V12 = @("OITV12APPTHERAS.va.gov")#, "OITV12APPTHERA2.va.gov")#, "OITV12APPTHERA4.va.gov", 
+        #"OITV12APPTHERA5.va.gov", "OITV12DBSTHERAD.va.gov")
+        V20 = @("OITV20APPTHERAS.va.gov")#, "OITV20APPTHERA2.va.gov")
+        #, "OITV20APPTHERA3.va.gov", "OITV20APPTHERA4.va.gov", "OITV20DBSTHERAD.va.gov")
+        V22 = @("OITAUSAPPTHV22S.va.gov")#, "OITV22APPThera2.VA.GOV")#, "OITV22APPThera3.VA.GOV"
+        #, "OITV22DBSTHRAD2.VA.GOV"
+        V23 = @("OITv23APPTheraS.va.gov")#, "OITV23APPThera2.va.gov")#, "OITV23APPThera3.va.gov"
+        #, "OITV23APPThera4.va.gov", "OITV23APPThera5.va.gov", "OITv23APPTheraD.va.gov")
+        Washington = @("OITBALAPPTHWASS.va.gov")
+        Temple = @("OITCTXSTGTHERAS.va.gov")
+        Tampa = @("OITORLSTGTHTAMS.va.gov")
+        St_Louis = @("OITSTLAPPTHERAS.va.gov")
+        San_Juan = @("OITORLAPPTHSAJS.va.gov")
+        San_Antonio = @("OITSTXAPPTHERAS.VA.GOV")
+        Orlando = @("OITORLAPPTHORLS.va.gov") 
+        Martinsburg = @("OITBALAPPTHMWVS.va.gov")
+        Little_Rock = @("OITLITSTGTHERAS.va.gov")
+        Jackson = @("OITJACAPPTHERAS.va.gov")
+        Houston = @("OITAUSAPPTHHOUS.va.gov")
+        Denver = @("OITECHAPPTHERAS.VA.GOV")
+        Bay_Pines = @("OITORLSTGTHBAYS.va.gov")
+        Baltimore = @("OITBALAPPTHERS1.va.gov")
     }
 } else {
     $ServerGroupsMap = @{
-        Prod = @("example_prod_FQDN")
+        V2 = @("OITV03DBSTHERAD.va.gov")
+        V4 = @("OITV04APPTHERAD.va.gov")#, "OITV04APPTHERA2.va.gov")#, "OITV04APPTHERA3.va.gov",
+        #"OITV04APPTHERA4.va.gov", "OITV04APPTHERA5.va.gov", "OITV04APPTHERAD.va.gov")
+        V6 = @("OITV06DBSTHERAD.va.gov")#, "OITV06APPTHERA2.va.gov")#, "OITV06APPTHERA3.va.gov", 
+        #"OITV06APPTHERA4.va.gov", "OITV06DBSTHERAD.va.gov")
+        V7 = @("OITV07DBSTHERAD.va.gov")#, "OITV07APPTHERA2.va.gov")#, "OITV07DBSTHERAD.va.gov")
+        V9 = @("OITV09DBSTHERAD.va.gov")#, "OITV09APPTHERA2.va.gov")#, "OITV09APPTHERA3.va.gov", 
+        #"OITV09APPTHERA4.va.gov", "OITV09DBSTHERAD.va.gov")
+        V10 = @("OITV10DBSTHERAD.va.gov")#, "OITV10APPTHERA2.va.gov")#, "OITV10DBSTHERAD.va.gov")
+        V12 = @("OITV12DBSTHERAD.va.gov")#, "OITV12APPTHERA2.va.gov")#, "OITV12APPTHERA4.va.gov", 
+        #"OITV12APPTHERA5.va.gov", "OITV12DBSTHERAD.va.gov")
+        V20 = @("OITV20DBSTHERAD.va.gov")#, "OITV20APPTHERA2.va.gov")
+        #, "OITV20APPTHERA3.va.gov", "OITV20APPTHERA4.va.gov", "OITV20DBSTHERAD.va.gov")
+        V22 = @("OITV22DBSTHRAD2.VA.GOV")#, "OITV22APPThera2.VA.GOV")#, "OITV22APPThera3.VA.GOV"
+        #, "OITV22DBSTHRAD2.VA.GOV"
+        V23 = @("OITv23APPTheraD.va.gov")#, "OITV23APPThera2.va.gov")#, "OITV23APPThera3.va.gov"
+        #, "OITV23APPThera4.va.gov", "OITV23APPThera5.va.gov", "OITv23APPTheraD.va.gov")
+        Washington = @("OITBALAPPTHWASD.va.gov")
+        Temple = @("OITCTXDBSTHERAD.va.gov")
+        Tampa = @("OITORLDBSTHTAMD.va.gov")
+        St_Louis = @("OITSTLAPPTHERAD.va.gov")
+        San_Juan = @("OITORLDBSTHSAJD.va.gov")
+        San_Antonio = @("OITSTXDBSTHERAD.VA.GOV")
+        Orlando = @("OITORLDBSTHORLD.va.gov") 
+        Martinsburg = @("OITBALAPPTHMWVD.va.gov")
+        Little_Rock = @("OITLITDBSTHERAD.va.gov")
+        Jackson = @("OITJACDBSTHERAD.va.gov")
+        Houston = @("OITAUSDBSTHHOUD.va.gov")
+        Denver = @("OITECHDBSTHERAD.VA.GOV")
+        Bay_Pines = @("OITBALAPPTHERD1.va.gov")
+        Baltimore = @("OITBALAPPTHERD1.va.gov")
     }
 }
 
